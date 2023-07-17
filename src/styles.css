@@ -10,20 +10,23 @@ body {
     font-family: monospace;
 }
 
-.game-container {
-    position: relative;
-    width: 352px;
-    height:  198px;
-    outline: 1px solid white;
-    margin: 0 auto;
-    margin-top: 20px;
-}
-
 main {
     width: 800px;
     margin: 0 auto;
     color: white;
     margin-top: 20px;
+}
+
+.game-container {
+    position: relative;
+    width: 352px;
+    height:  198px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.game-container canvas {
+    outline: 1px solid white;
 }
 
 #throttle {
