@@ -4,12 +4,17 @@ export default class Boat {
         this.y = config.y || 0
         this.angle = config.angle || 0
 
-        this.length = config.length || 100
-        this.beam = config.beam || 30
-        this.bulge = config.bulge || 10
+        this.length = config.length || 40
+        this.beam = config.beam || 12
+        this.bulge = config.bulge || 4
 
         this.fillStyle = config.fillStyle || 'white'
         this.strokeStyle = config.strokeStyle || 'black'
+    }
+
+    update(deltaTime, event) {
+        const angleChangePerMilisecond = 1 / 60_000
+        this.angle += deltaTime * angleChangePerMilisecond * 2 * Math.PI
     }
 
     draw(ctx) {
