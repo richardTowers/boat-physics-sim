@@ -1,6 +1,8 @@
 import Boat from './boat.js'
 import DirectionInput from './directionInput.js'
 import Slider from './slider.js'
+import eastCowesMarinaCollisionMap from './east-cowes-marina-collision-map.js'
+import Wall from './wall.js'
 
 export default class Overworld {
     constructor(config) {
@@ -14,19 +16,27 @@ export default class Overworld {
             map: {up: 'increase', down: 'decrease'},
         })
         this.canvas = this.element.querySelector('.game-canvas')
+        this.walls = []
         this.ctx = this.canvas.getContext('2d')
         this.gameObjects = []
         this.time = performance.now()
         this.directionInput = new DirectionInput()
+        this.backgroundImage = new Image(576, 360)
     }
 
     init() {
         this.directionInput.init()
+        this.backgroundImage.src = '/images/east-cowes-marina.png'
+        this.walls = eastCowesMarinaCollisionMap.map(x => new Wall(x))
         const boat = new Boat({x: 100, y: 60})
         this.gameObjects.push(this.rudderSlider)
         this.gameObjects.push(this.throttleSlider)
         this.gameObjects.push(boat)
-        this.startGameLoop()
+        this.walls.forEach(wall => this.gameObjects.push(wall))
+
+        this.backgroundImage.onload = () => {
+            this.startGameLoop()
+        }
     }
 
     startGameLoop() {
@@ -49,8 +59,7 @@ export default class Overworld {
     }
 
     drawBackground() {
-        this.ctx.fillStyle = "dodgerblue";
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.drawImage(this.backgroundImage, 0, 0, this.backgroundImage.width, this.backgroundImage.height)
     }
 
 }
