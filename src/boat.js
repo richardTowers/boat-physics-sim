@@ -3,6 +3,7 @@ export default class Boat {
         this.x = config.x || 0
         this.y = config.y || 0
         this.angle = config.angle || 0
+        this.speed = 0
 
         this.length = config.length || 40
         this.beam = config.beam || 12
@@ -16,10 +17,12 @@ export default class Boat {
         const angleChangePerMilisecond = 1 / 60_000
         const movementPerMilisecond = 200 / 60_000
 
-        this.x += event.throttle * deltaTime * Math.cos(this.angle) * movementPerMilisecond
-        this.y += event.throttle * deltaTime * Math.sin(this.angle) * movementPerMilisecond
+        this.speed = event.throttle // TODO - inertia
 
-        this.angle += event.rudder * deltaTime * angleChangePerMilisecond * 2 * Math.PI
+        this.x += this.speed * deltaTime * Math.cos(this.angle) * movementPerMilisecond
+        this.y += this.speed * deltaTime * Math.sin(this.angle) * movementPerMilisecond
+
+        this.angle += this.speed / 10 * event.rudder * deltaTime * angleChangePerMilisecond * 2 * Math.PI
     }
 
     draw(ctx) {
