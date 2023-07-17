@@ -5,8 +5,16 @@
         <script type="module" async src="/main.js"></script>
     </head>
     <body>
-        <div class="game-container">
-            <canvas class="game-canvas" width="352" height="198"></canvas>
-        </div>
+        <main>
+            <h1>Boat physics sim</h1>
+            <h2>Map</h2>
+            <div class="game-container">
+                <canvas class="game-canvas" width="352" height="198"></canvas>
+            </div>
+            <h2>Rudder</h2>
+            <input type="range" name="rudder" id="rudder" min="-100" max="100" value="0">
+            <h2>Throttle</h2>
+            <input type="range" name="throttle" id="throttle" min="-100" max="100" value="0">
+        </main>
     </body>
 </html>
