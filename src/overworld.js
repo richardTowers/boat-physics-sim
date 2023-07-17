@@ -1,4 +1,5 @@
 import Boat from './boat.js'
+import DirectionInput from './directionInput.js'
 
 export default class Overworld {
     constructor(config) {
@@ -7,9 +8,11 @@ export default class Overworld {
         this.ctx = this.canvas.getContext('2d')
         this.gameObjects = []
         this.time = performance.now()
+        this.directionInput = new DirectionInput()
     }
 
     init() {
+        this.directionInput.init()
         const boat = new Boat({x: 100, y: 60})
         this.gameObjects.push(boat)
         this.startGameLoop()
@@ -19,7 +22,9 @@ export default class Overworld {
         const step = (deltaTime) => {
             this.drawBackground()
             for (const gameObject of this.gameObjects) {
-                gameObject.update(deltaTime, {})
+                gameObject.update(deltaTime, {
+                    arrow: this.directionInput.direction
+                })
                 gameObject.draw(this.ctx)
             }
             requestAnimationFrame(now => {

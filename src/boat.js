@@ -13,8 +13,24 @@ export default class Boat {
     }
 
     update(deltaTime, event) {
-        const angleChangePerMilisecond = 1 / 60_000
-        this.angle += deltaTime * angleChangePerMilisecond * 2 * Math.PI
+        const angleChangePerMilisecond = 10 / 60_000
+        const movementPerMilisecond = 30 / 60_000
+        switch(event.arrow) {
+            case 'up':
+                this.x += Math.cos(this.angle) + movementPerMilisecond
+                this.y += Math.sin(this.angle) + movementPerMilisecond
+                break
+            case 'down':
+                this.x -= Math.cos(this.angle) + movementPerMilisecond
+                this.y -= Math.sin(this.angle) + movementPerMilisecond
+                break
+            case 'left':
+                this.angle -= deltaTime * angleChangePerMilisecond * 2 * Math.PI
+                break
+            case 'right':
+                this.angle += deltaTime * angleChangePerMilisecond * 2 * Math.PI
+                break
+        }
     }
 
     draw(ctx) {
