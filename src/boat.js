@@ -1,3 +1,5 @@
+import isBoatColliding from "./collision-detector.js"
+
 export default class Boat {
     constructor(config = {}) {
         this.x = config.x || 0
@@ -11,6 +13,34 @@ export default class Boat {
 
         this.fillStyle = config.fillStyle || 'white'
         this.strokeStyle = config.strokeStyle || 'black'
+        this.isColliding = false
+    }
+
+    updatePoints() {
+        const cos = Math.cos(this.angle)
+        const sin = Math.sin(this.angle)
+
+        const halfLength = this.length / 2;
+        const halfBeam = this.beam / 2;
+
+        const x1 = this.x + halfLength * cos - halfBeam * sin
+        const y1 = this.y + halfLength * sin + halfBeam * cos
+
+        const x2 = this.x - halfLength * cos - halfBeam * sin
+        const y2 = this.y - halfLength * sin + halfBeam * cos
+
+        const x3 = this.x - halfLength * cos + halfBeam * sin
+        const y3 = this.y - halfLength * sin - halfBeam * cos
+
+        const x4 = this.x + halfLength * cos + halfBeam * sin
+        const y4 = this.y + halfLength * sin - halfBeam * cos
+
+        this.points = [
+            { x: x1, y: y1 },
+            { x: x2, y: y2 },
+            { x: x3, y: y3 },
+            { x: x4, y: y4 }
+        ]
     }
 
     update(deltaTime, event) {
@@ -23,6 +53,9 @@ export default class Boat {
         this.y += this.speed * deltaTime * Math.sin(this.angle) * movementPerMilisecond
 
         this.angle += this.speed / 10 * event.rudder * deltaTime * angleChangePerMilisecond * 2 * Math.PI
+
+        this.updatePoints()
+        this.isColliding = isBoatColliding(this.points, event.walls.map(x => x.points))
     }
 
     draw(ctx) {
@@ -54,6 +87,21 @@ export default class Boat {
         ctx.fill()
         ctx.stroke()
 
+        ctx.restore()
+
+        this.drawCollisionBox(ctx)
+    }
+
+    drawCollisionBox(ctx) {
+        ctx.save()
+        ctx.strokeStyle = this.isColliding ? 'orange' : 'blue'
+        ctx.beginPath()
+        ctx.moveTo(this.points[0].x, this.points[0].y)
+        ctx.lineTo(this.points[1].x, this.points[1].y)
+        ctx.lineTo(this.points[2].x, this.points[2].y)
+        ctx.lineTo(this.points[3].x, this.points[3].y)
+        ctx.closePath()
+        ctx.stroke()
         ctx.restore()
     }
 }

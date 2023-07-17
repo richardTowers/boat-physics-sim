@@ -6,8 +6,8 @@ This is a little browser game which models the physics of a sailing boat.
 
 - [x] Simple modelling of throttle
 - [x] Simple modelling of rudder
+- [x] Collision detection
 - [ ] Tidal stream
-- [ ] Collision detection
 - [ ] Detailed investigation of physics under motor
 - [ ] Bow thrusters
 - [ ] Wind

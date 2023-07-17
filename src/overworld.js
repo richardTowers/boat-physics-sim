@@ -16,6 +16,7 @@ export default class Overworld {
             map: {up: 'increase', down: 'decrease'},
         })
         this.canvas = this.element.querySelector('.game-canvas')
+        this.boat = null
         this.walls = []
         this.ctx = this.canvas.getContext('2d')
         this.gameObjects = []
@@ -28,10 +29,10 @@ export default class Overworld {
         this.directionInput.init()
         this.backgroundImage.src = '/images/east-cowes-marina.png'
         this.walls = eastCowesMarinaCollisionMap.map(x => new Wall(x))
-        const boat = new Boat({x: 100, y: 60})
+        this.boat = new Boat({x: 70, y: 60, angle: 0.45 * Math.PI })
         this.gameObjects.push(this.rudderSlider)
         this.gameObjects.push(this.throttleSlider)
-        this.gameObjects.push(boat)
+        this.gameObjects.push(this.boat)
         this.walls.forEach(wall => this.gameObjects.push(wall))
 
         this.backgroundImage.onload = () => {
@@ -47,6 +48,7 @@ export default class Overworld {
                     arrow: this.directionInput.direction,
                     rudder: this.rudderSlider.value,
                     throttle: this.throttleSlider.value,
+                    walls: this.walls,
                 })
                 gameObject.draw(this.ctx)
             }
