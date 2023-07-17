@@ -47,7 +47,13 @@ export default class Boat {
         const angleChangePerMilisecond = 1 / 60_000
         const movementPerMilisecond = 200 / 60_000
 
-        this.speed = event.throttle // TODO - inertia
+        if (this.isColliding) {
+            // Stop the boat as soon as there's a collision
+            this.speed = 0
+        }
+        else {
+            this.speed = event.throttle // TODO - inertia
+        }
 
         this.x += this.speed * deltaTime * Math.cos(this.angle) * movementPerMilisecond
         this.y += this.speed * deltaTime * Math.sin(this.angle) * movementPerMilisecond
