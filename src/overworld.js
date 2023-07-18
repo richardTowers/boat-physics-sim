@@ -27,7 +27,7 @@ export default class Overworld {
 
     init() {
         this.directionInput.init()
-        this.backgroundImage.src = '/images/east-cowes-marina.png'
+        this.backgroundImage.src = 'images/east-cowes-marina.png'
         this.walls = eastCowesMarinaCollisionMap.map(x => new Wall(x))
         this.boat = new Boat({x: 70, y: 60, angle: 0.45 * Math.PI })
         this.gameObjects.push(this.rudderSlider)
